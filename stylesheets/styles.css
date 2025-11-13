@@ -1,3 +1,44 @@
-* {
-    color: red;
+/* declare global variables */
+:root {
+    --primary-color: #4b1e1e;
+    --font-color: #FFFDD0;
 }
+
+/* HEADER SECTION*/
+.header-container {
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/*  header text */
+.header-name {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--font-color);
+}
+
+/*  login button */
+.header-button {
+    background-color: transparent;
+    color: var(--font-color);
+    border: 2px solid var(--font-color);
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* flip colors on cursor hover*/
+.header-button:hover {
+    background-color: var(--font-color);
+    color: var(--primary-color);
+}
+
+
+/* CONTENT CONTAINER */
+
