@@ -32,12 +32,25 @@ function displayLibrary () {
     const libraryDiv = document.getElementById("library");
     libraryDiv.textContent = ""; // clears all cards safely
 
-    myLibrary.forEach((book) => {
+    myLibrary.forEach((book, index) => {
         const card = document.createElement("div");
         card.classList.add("book-card");
 
+        /* delete button*/
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "✕";
+        deleteButton.classList.add("delete-button");
+        deleteButton.addEventListener("click", () => {
+            /* Remove the book from the array */
+            myLibrary.splice(index, 1);
+            /* Refresh the library display */
+            displayLibrary();
+        });
+
+        /* book info*/
         const title = document.createElement("div");
-        title.textContent = `Title: ${book.title}`;
+        title.textContent = `${book.title}`;
+        title.classList.add("book-title");
 
         const author = document.createElement("div");
         author.textContent = `Author: ${book.author}`;
@@ -45,10 +58,23 @@ function displayLibrary () {
         const pages = document.createElement("div");
         pages.textContent = `Pages: ${book.pages}`;
 
-        const read = document.createElement("div");
-        read.textContent = `Read Status: ${book.readStatus}`;
+        const readButton = document.createElement("button");
+        readButton.textContent = book.readStatus;
+        readButton.classList.add("read-toggle");
+        readButton.classList.add(book.readStatus === "read" ? "read" : "unread");
+        readButton.style.cursor="pointer";
 
-        card.append(title, author, pages, read)
+        readButton.addEventListener("click", () => {
+            /* Toggle status */
+            book.readStatus = book.readStatus === "read" ? "unread" : "read";
+
+            /* Update classes */
+            readButton.textContent = book.readStatus;
+            readButton.classList.toggle("read");
+            readButton.classList.toggle("unread");
+});
+
+        card.append(deleteButton, title, author, pages, readButton)
         libraryDiv.appendChild(card);
     });
 }
@@ -90,5 +116,5 @@ cancelButton.addEventListener("click", () => {
 });
 
 /* default book when page reloads.*/
-myLibrary.push(new Book("Dune", "Frank Herbert", 672, "have read", 1));
+myLibrary.push(new Book("Dune", "Frank Herbert", 672, "read", crypto.randomUUID()));
 displayLibrary();

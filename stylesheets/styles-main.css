@@ -15,6 +15,9 @@
     align-items: center;
     padding: 1rem 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 /*  header text */
@@ -86,7 +89,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    font-weight: 600;
     overflow-y: hidden;
 }
 
@@ -106,6 +108,41 @@
 }
 
 .book-card div {
-    font-size: 0.95rem;
     color: var(--primary-color);
+}
+
+.book-title {
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+.delete-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background-color: transparent;
+    color: var(--primary-color); 
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+/*  Read button*/
+.read-toggle {
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  color: var(--font-color);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.read-toggle.read {
+    background-color: darkolivegreen;
+}
+
+.read-toggle.unread {
+  background-color: var(--primary-color);
 }
