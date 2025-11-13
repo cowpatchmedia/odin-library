@@ -1,0 +1,76 @@
+#bookForm {
+    background-color: var(--font-color); 
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin-top: 1rem;
+}
+
+#bookForm h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+#bookForm label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+#bookForm input[type="text"],
+#bookForm input[type="number"] {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--primary-color);
+    margin-top: 0.25rem;
+    font-size: 1rem;
+}
+
+#bookForm input[type="radio"] {
+    margin-right: 0.3rem;
+    accent-color: var(--primary-color); 
+}
+
+#bookForm label.radio-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    gap: 0.3rem;         
+    font-weight: normal;  
+}
+
+#bookForm label[for] {
+    font-weight: normal; 
+}
+
+#bookForm button {
+    background-color: var(--primary-color);
+    color: var(--font-color);
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+#bookForm button:hover {
+    background-color: var(--font-color);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.read-status-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
