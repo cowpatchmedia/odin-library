@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>my library</title>
 
     <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/modern-normalize.css">
@@ -17,11 +17,49 @@
                 my library
             </div>
 
-            <button class="header-button">log in</button>
+            <button class="header-button">
+                log in
+            </button>
         </div>
 
         <div class="content-container">
-            <button id="addButton" class="addButton">+ Add Book</button>
+            <button id="addButton" class="addButton">
+                + Add Book
+            </button>
+
+            <!-- Book Form is hidden until press add book.-->
+            <form id="bookForm" style="display:none">
+                <h3>Add a New Book</h3>
+                <label>
+                Title: <input type="text" id="title" required />
+                </label>
+                <br /><br />
+
+                <label>
+                Author: <input type="text" id="author" required />
+                </label>
+                <br /><br />
+
+                <label>
+                Pages: <input type="number" id="pages" min="1" required />
+                </label>
+                <br /><br />
+
+                <!-- no form type for read status label-->
+                <label>Read Status:</label><br />
+                <label>
+                <input type="radio" name="readStatus" value="read" required /> Read
+                </label>
+                <label>
+                <input type="radio" name="readStatus" value="unread" /> Unread
+                </label>
+                <br /><br />
+
+                <button type="submit" id="addButton">Add Book</button>
+                <button type="button" id="cancelButton">Cancel</button>
+            </form>
+
+            <!-- append books to library through JS.-->
             <div id="library"></div>
         </div>
 
