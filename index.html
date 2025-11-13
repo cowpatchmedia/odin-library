@@ -6,8 +6,9 @@
     <title>my library</title>
 
     <link rel="stylesheet" type="text/css" href="stylesheets/modern-normalize.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/styles-form.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/styles-main.css">
-    
+
 
 </head>
 <body>
@@ -45,15 +46,14 @@
                 Pages: <input type="number" id="pages" min="1" required />
                 </label>
                 <br /><br />
-
-                <!-- no form type for read status label-->
-                <label>Read Status:</label><br />
-                <label>
-                <input type="radio" name="readStatus" value="read" required /> Read
-                </label>
-                <label>
-                <input type="radio" name="readStatus" value="unread" /> Unread
-                </label>
+                <div class="read-status-group">
+                    <label class="radio-label">
+                        <input type="radio" name="readStatus" value="read" required />Read
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="readStatus" value="unread" />Unread 
+                    </label>
+                </div>
                 <br /><br />
 
                 <button type="submit" id="addButton">Add Book</button>
