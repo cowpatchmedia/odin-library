@@ -1,50 +1,118 @@
-console.log("Hello World!")
-
-const myLibrary = [];
-
-/* constructor for a book*/
-function Book(title, author, pages, readStatus, id) {
-    if (!new.target) {
-        throw Error("You must use the 'new' operator to call the constructor")
-    }
-
+/* class for a single book */
+class Book { 
+    /* constructor for book elements */
+    constructor(title, author, pages, readStatus, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.readStatus = readStatus;
     this.id = id;
-};
+    }
 
-/* add new book object to the library array*/
-function addBookToLibrary (title, author, pages, readStatus) {
-    const id = crypto.randomUUID();
-
-    const newBook = new Book(title, author, pages, readStatus, id);
-
-    myLibrary.push(newBook);
-
-    /* after adding book reload the library display. */
-    displayLibrary();
+    /* toggle read status */
+    toggleReadStatus() {
+        this.readStatus = this.readStatus === "read" ? "unread" : "read";
+    }
 }
 
 /* display books in array as cards*/
-function displayLibrary () {
-    const libraryDiv = document.getElementById("library");
-    libraryDiv.textContent = ""; // clears all cards safely
+class Library {
+    constructor() {
+        this.books = [];
 
-    myLibrary.forEach((book, index) => {
+        /* dom elements */
+        this.libraryDiv = document.getElementById("library");
+        this.addButton = document.getElementById("addButton");
+        this.form = document.getElementById("bookForm");
+        this.cancelButton = document.getElementById("cancelButton");
+
+        /* form inputs */
+        this.titleInput = document.getElementById("title");
+        this.authorInput = document.getElementById("author");
+        this.pagesInput = document.getElementById("pages");
+
+        /* initialize application*/
+        this.bindEvents();
+        this.loadInitialData();
+    }
+
+    /* attach event listeners for form through bindEvents function */
+    bindEvents() {
+        /* only show form once button is clicked.*/
+        this.addButton.addEventListener("click", () => {
+            this.form.style.display="block";
+            this.addButton.style.display="none";
+        });
+
+        this.cancelButton.addEventListener("click", () => {
+            this.hideForm();
+        });
+
+        this.form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.handleFormSubmit();
+        });
+    }
+
+    /* hideForm and handleFormSubmit activates in bindEvents function*/
+    hideForm() {
+        this.form.reset();
+        this.form.style.display = "none";
+        this.addButton.style.display = "inline-block";
+    }
+
+    handleFormSubmit() {
+        const title = this.titleInput.value.trim();
+        const author = this.authorInput.value.trim();
+        const pages = parseInt(this.pagesInput.value);
+        const readStatus = document.querySelector("input[name='readStatus']:checked").value;
+
+        if (title && author && pages) {
+            this.addBook(title, author, pages, readStatus);
+            this.hideForm();
+        } else {
+            alert("Please fill out all fields.");
+        }
+    }
+
+    addBook(title, author, pages, readStatus) {
+        /* give random book ID*/
+        const id = crypto.randomUUID();
+
+        /* create new book */
+        const newBook = new Book(title, author, pages, readStatus, id);
+        this.books.push(newBook);
+
+        /* after adding book reload the library display. */
+        this.display();
+    }
+
+    /* remove book by ID using filter*/
+    removeBook(bookId) {
+        this.books = this.books.filter(book => book.id !== bookId);
+        this.display();
+    }
+
+    display() {
+        this.libraryDiv.textContent = "";
+
+        this.books.forEach((book) => {
+            const card = this.createBookCard(book);
+            this.libraryDiv.appendChild(card);
+        });
+    }
+
+    createBookCard(book) {
         const card = document.createElement("div");
         card.classList.add("book-card");
+        card.dataset.bookId = book.id;
 
         /* delete button*/
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "✕";
         deleteButton.classList.add("delete-button");
         deleteButton.addEventListener("click", () => {
-            /* Remove the book from the array */
-            myLibrary.splice(index, 1);
-            /* Refresh the library display */
-            displayLibrary();
+            this.removeBook(book.id);
         });
 
         /* book info*/
@@ -60,61 +128,27 @@ function displayLibrary () {
 
         const readButton = document.createElement("button");
         readButton.textContent = book.readStatus;
-        readButton.classList.add("read-toggle");
-        readButton.classList.add(book.readStatus === "read" ? "read" : "unread");
+        readButton.classList.add("read-toggle", book.readStatus);
         readButton.style.cursor="pointer";
 
         readButton.addEventListener("click", () => {
             /* Toggle status */
-            book.readStatus = book.readStatus === "read" ? "unread" : "read";
+            book.toggleReadStatus();
 
             /* Update classes */
             readButton.textContent = book.readStatus;
             readButton.classList.toggle("read");
             readButton.classList.toggle("unread");
-});
+        });
 
         card.append(deleteButton, title, author, pages, readButton)
-        libraryDiv.appendChild(card);
-    });
+        return card;
+    }
+
+    /* default book when page reloads.*/
+    loadInitialData() {
+        this.addBook("Dune", "Frank Herbert", 672, "read");
+    }
 }
 
-/* DOM elements*/
-const addButton = document.getElementById("addButton");
-const form = document.getElementById("bookForm");
-const cancelButton = document.getElementById("cancelButton");
-
-/* only show form once button is clicked.*/
-addButton.addEventListener("click", () => {
-    form.style.display="block";
-    addButton.style.display="none";
-});
-
-/* handles form submission*/
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const title = document.getElementById("title").value.trim();
-    const author = document.getElementById("author").value.trim();
-    const pages = parseInt(document.getElementById("pages").value);
-    const readStatus = document.querySelector("input[name='readStatus']:checked").value;
-
-    /* adds book object to library array*/
-    addBookToLibrary(title, author, pages, readStatus);
-
-    /* reset and hide form*/
-    form.reset();
-    form.style.display= "none";
-    addButton.style.display ="inline-block";
-});
-
-/* add listener to hide form for cancel button*/
-cancelButton.addEventListener("click", () => {
-    form.reset();
-    form.style.display= "none";
-    addButton.style.display ="inline-block";
-});
-
-/* default book when page reloads.*/
-myLibrary.push(new Book("Dune", "Frank Herbert", 672, "read", crypto.randomUUID()));
-displayLibrary();
+const app = new Library();
